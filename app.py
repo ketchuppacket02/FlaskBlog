@@ -85,7 +85,7 @@ def edit(id):
         title = request.form['title']
         content = request.form['content']
     
-        #if POST, process the form data. Get the data and validate it. Update the post and redirect to the homepage
+        #if not title or content, flash error message
         if not title:
             flash('Title is required')
         elif not content:
