@@ -100,5 +100,25 @@ def edit(id):
     #if GET display the page
     return render_template('edit.html', post=post)
 
+from flask import url_for, redirect, flash
+
+@app.route('/<int:id>/delete/', methods=('POST',))
+def delete_post(id):
+    # Retrieve the post to ensure it exists
+    post = get_post(id)
+
+    # Connect to the database and delete the post
+    conn = get_db_connection()
+    conn.execute('DELETE FROM posts WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
+
+    # Flash a success message and redirect to the homepage
+    flash('"{}" was deleted successfully!'.format(post['title']))
+
+    #redirect to homepage
+    return redirect(url_for('index'))
+
+
 
 app.run(port=5000)
